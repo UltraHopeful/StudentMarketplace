@@ -1,0 +1,129 @@
+<div class="main-content">
+    <div class="">
+        <div class="container-fluid">
+            <div class="row row-cols-md-2 row-cols-1">
+
+                <!-- loop over the collection of products -->
+                <div *ngFor="let post of posts" class="col mb-4">
+
+                    <div class="card mb-3 border-0 shadow">
+                        <div class="row g-0">
+                            <div class="col-lg-4 col-md-12">
+                                <div *ngFor="let image of post.media">
+                                    <img src="{{ image.location }}" class="img-fluid hrz-card-img-top rounded-start">
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-12 col-sm-12">
+                                <div class="card-body">
+                                    <h4 class="card-title">{{ post.title }}</h4>
+
+                                    <div class="price">Price : {{ post.price| currency:'USD' }}</div>
+                                    <div class="mt-2">
+
+                                        <span *ngIf="post.status == 'Sold'" class="text-success">
+                                            <fa-icon [icon]="['fas', 'check-circle']"></fa-icon> Sold
+                                        </span>
+
+                                        <button *ngIf="post.status != 'Sold'" (click)="editPost(post)">
+                                            Edit
+                                            <fa-icon [icon]="['fas', 'edit']" class="text-warning">
+                                            </fa-icon>
+                                        </button>
+                                        <button (click)="open(content, post)">
+                                            Delete
+                                            <fa-icon [icon]="['fas', 'trash-alt']" class="text-danger">
+                                            </fa-icon>
+                                        </button>
+                                    </div>
+
+                                    <div class="hrz-card-footer">
+                                        <div class="d-flex flex-lg-row flex-md-column flex-sm-column flex-column"
+                                             role="group" aria-label="Basic mixed styles example">
+                                            <button class="btn btn-info btn-sm me-2 my-2"
+                                                    (click)="onPostSelected(post)">
+                                                <fa-icon [icon]="['fas', 'bag-shopping']"></fa-icon>
+                                                Interested Buyers
+                                            </button>
+                                            <button *ngIf="post.status != 'Sold'"
+                                                    class="btn btn-success btn-sm me-2 my-2"
+                                                    (click)="markAsSold(post.id)">
+                                                <fa-icon [icon]="['fas', 'check-circle']"></fa-icon>
+                                                Mark
+                                                as Sold
+                                            </button>
+                                        </div>
+
+                                        <div class="row align-items-end">
+                                            <small class="text-muted col-auto"><em>Last updated</em>
+                                                {{ post.insertTimestamp | date : "MMM dd, yyyy hh:mm a"}}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- if products empty then display a message-->
+                <div *ngIf="posts?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                    No posts found.
+                </div>
+
+                <ng-template #content let-modal>
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">User Profile Delete</h4>
+                        <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title"
+                                (click)="modal.dismiss('Cross click')"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong> <span class="text-primary"></span> Are you sure you want to delete this
+                            post?</strong></p>
+                        <p><span class="text-danger">This operation can not be reversed.</span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary"
+                                (click)="modal.dismiss('cancel click')">Cancel
+                        </button>
+                        <button type="button" ngbAutofocus class="btn btn-danger" (click)="onDelete()">Ok
+                        </button>
+                    </div>
+                </ng-template>
+
+
+            </div>
+
+            <!-- begin footer -->
+            <div class="footer-pagination">
+                <div class="row justify-content-center">
+
+                    <div class="col-md-auto">
+
+                        <ngb-pagination class="float-end" [(page)]="thePageNumber" [pageSize]="thePageSize"
+                                        [collectionSize]="theTotalElements" [maxSize]="5" [boundaryLinks]="true"
+                                        (pageChange)="listPosts()">
+
+                        </ngb-pagination>
+
+                    </div>
+
+                    <div class="col-md-auto mt-2">
+                        <span class="mr-2">Page Size &nbsp;</span>
+
+                        <select (change)="updatePageSize($event.target.value)">
+                            <option>3</option>
+                            <option selected="true">6</option>
+                            <option>12</option>
+                            <option>24</option>
+                            <option>48</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- end footer -->
+
+</div>

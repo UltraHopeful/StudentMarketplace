@@ -1,0 +1,39 @@
+<div class="container-fluid post-details-margin">
+
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-11">
+            <div *ngFor="let image of post.media">
+                <img src="{{ image.location }}" class="img-fluid w-100">
+            </div>
+        </div>
+
+        <div class="col-lg-9 col-md-9 col-11">
+            <h3>{{ post.title }}</h3>
+            <div class="price">{{ post.price | currency:'USD' }}</div>
+
+            <hr>
+            <h4>Description</h4>
+            <p>{{ post.description }}</p>
+
+            <hr>
+            <h4>Category</h4>
+            <p>{{ post.category.categoryName }}</p>
+
+
+            <hr>
+            <h4>Post Details</h4>
+
+            <div *ngFor="let postDetail of post.postDetails">
+                <span> {{ postDetail.fieldName}}: </span>
+                <span class="text text-dark"> {{ postDetail.fieldValue}}</span>
+            </div>
+
+            <hr>
+            <h4>Seller</h4>
+            <p>{{ post.seller.firstName }} {{ post.seller.lastName }}</p>
+            <p *ngIf="post.acceptedCommunication">{{ post.seller.email}}}</p>
+            <p *ngIf="post.acceptedCommunication">{{ post.seller.phoneNumber }}</p>
+            <a routerLink="/posts" class="mt-4 btn btn-primary"><fa-icon [icon]="['fas', 'arrow-left']" class="me-2"></fa-icon>Back to Posts</a>
+        </div>
+    </div>
+</div>

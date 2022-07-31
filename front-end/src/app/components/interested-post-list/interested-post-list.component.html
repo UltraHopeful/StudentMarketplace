@@ -1,0 +1,55 @@
+<div class="main-content">
+    <div class="">
+        <div class="container-fluid">
+            <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
+
+                <!-- loop over the collection of products -->
+                <div *ngFor="let buyer of buyers" class="col mb-4">
+
+                    <div class="card h-100 shadow-sm" (click)="goToPostDetail(buyer.post, buyer.canCommunicate)">
+
+                        <div class="card-body">
+                            <button class="p-0">
+                                <h4>{{ buyer.post.title }}</h4>
+                            </button>
+
+                            <div>{{ buyer.post.price | currency : 'USD'}}</div>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col">
+                                    <div *ngIf="!buyer.canCommunicate" class="text text-warning">
+                                        <fa-icon [icon]="['fas', 'circle-pause']"></fa-icon> Request Pending
+                                    </div>
+                                    <div *ngIf="buyer.canCommunicate" class="text text-success">
+                                        <fa-icon [icon]="['fas', 'check-circle']"></fa-icon> Request Accepted
+                                    </div>
+                                </div>
+                                <div class="col" style="text-align: right;">
+                                    <span *ngIf="buyer.post.status == 'Sold'" class="text-danger">
+                                        <fa-icon [icon]="['fas', 'circle-xmark']"></fa-icon> Sold
+                                    </span> &nbsp;&nbsp;
+                                    <span *ngIf="buyer.post.status != 'Sold'" class="text-success">
+                                        <fa-icon [icon]="['fas', 'check-circle']"></fa-icon> Open
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- if buyer empty then display a message-->
+                <div *ngIf="buyers?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                    No interested post found.
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- end footer -->
+
+</div>

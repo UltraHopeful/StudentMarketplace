@@ -1,0 +1,21 @@
+post_id,category_id,seller_id,title,description,price,status,closed_timestamp,is_active,insert_timestamp
+1,1,1,Table IKEA,table description,20,open,NULL,1,2/24/2022 19:22
+2,1,1,chair IKEA,chair description,10,open,NULL,1,2/24/2022 20:18
+3,2,3,1BHK,5885 spring garden terrace,1400,closed,4/17/2022 19:19,0,3/9/2022 19:19
+4,3,6,Apple Tv,Latest version,200,open,NULL,1,3/22/2022 19:19
+5,4,8,Winter jacket,Winter wear bought recently,150,open,NULL,1,3/9/2022 19:19
+6,2,2,2BHK,2309 brunswick st,1420,closed,4/30/2022 19:19,0,4/17/2022 19:19
+7,3,4,Smart watch,Noise watch,80,open,NULL,1,4/30/2022 19:19
+8,5,10,Shoes,Puma winter shoes,100,closed,NULL,0,5/13/2022 19:19
+9,4,9,CS history,2 years,50,open,3/17/2022 19:19,1,5/26/2022 19:19
+10,5,7,Winter wear,clothing ,55,open,3/30/2022 19:19,1,6/8/2022 19:19
+11,3,6,Airpods,2nd generation,100,open,3/12/2022 19:19,1,6/21/2022 19:19
+12,2,8,3BHK,park victoria,1950,open,5/1/2022 19:19,1,7/4/2022 19:19
+13,1,5,Computer desk,IKEA good condition,80,closed,3/9/2022 19:19,0,7/17/2022 19:19
+14,3,3,Iphone18,Latest version,1300,open,NULL,1,7/30/2022 19:19
+15,4,1,Herbal medicine,1 year,40,closed,2/24/2022 20:18,0,8/12/2022 19:19
+16,4,2,Law course,3 months,35,open,NULL,1,8/25/2022 19:19
+17,5,7,Women clothing,recently bought,190,open,NULL,1,9/7/2022 19:19
+18,1,9,TV stand,free,0,closed,3/9/2022 19:19,0,9/20/2022 19:19
+19,2,4,2BHK,bayers road,1460,closed,NULL,0,10/3/2022 19:19
+20,5,10,Mens jacket,Calvin Klein brand new jacket,280,closed,4/30/2022 19:19,0,10/16/2022 19:19

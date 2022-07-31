@@ -1,0 +1,152 @@
+image: ubuntu:latest
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+
+stages:
+  - build
+  - test
+  - code_quality
+  - dev
+  - production
+
+frontend-build:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  tags:
+    - dalfcs_docker_autoscale
+  image: node:16.14.0
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  script:
+    - echo "Frontend Application Build Started."
+    - cd front-end
+    - npm install
+    - npm run build
+    - echo "Frontend Application Build Success."
+  artifacts:
+    paths:
+      - public
+
+backend-build:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  tags:
+    - ugrad
+  image: maven:3-jdk-11
+  script:
+    - echo "Backend Application Build Started."
+    - cd back-end
+    - mvn clean install -DskipTests=true
+    - mvn package
+    - echo "Backend Application Build Success."
+  artifacts:
+    when: on_success
+    paths:
+      - target/*.war
+
+
+backend-test:
+  stage: test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  tags:
+    - ugrad
+  image: maven:3-jdk-11
+  script:
+    - echo "Backend Application Test Stage Started."
+    - cd back-end
+    - mvn test
+    - echo "Backend Application Test Stage Completed."
+
+code_quality:
+  image: ubuntu:latest
+  stage: code_quality
+  variables:
+    UPLOAD_QUALITY_REPORT: 'curl -X PUT -H "Authorization: Token e65439ec10144f79250595ed2e6bb0ea4b0b6ab3" -H "repository-link: $CI_PROJECT_URL" + -H "username:nikita.kothari@dal.ca" -H "Content-Type: mulitpart/form-data" --url "https://qscored.com/api/upload/file.xml?is_open_access=off&version=$CI_PIPELINE_IID&project_name=marketplace-project" -F "file=@Designite_output/DesigniteAnalysis.xml"'
+  before_script:
+    - apt-get update
+    - ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
+    - apt-get --yes --force-yes install wget curl maven git
+  script:
+    - wget -O DesigniteJava.jar https://www.dropbox.com/s/mwizkj8uhplz4x3/DesigniteJava.jar?dl=1
+    - java --version
+    - echo $CI_PROJECT_PATH
+    - echo $PAT
+    - echo $DESIGNITE_KEY
+    - java -jar 'DesigniteJava.jar' -ci -repo "courses/2022-winter/csci-5308/group9" -pat "marketplace-token:glpat-xFvG3TLKbuTQYmG1S21z" -host "git.cs.dal.ca" -k $DESIGNITE_KEY
+    - 'eval "$UPLOAD_QUALITY_REPORT"'
+  only:
+    - main
+
+
+
+deploy_backend_dev:
+    type: deploy
+    stage: dev
+    image: ruby:latest
+    before_script:
+      - apt-get update -qy
+      - apt-get install -y ruby-dev
+      - gem install dpl
+    script:
+      - cd back-end
+      - dpl --provider=heroku --app=$HEROKU_APP_DEV_BACKEND --api-key=$HEROKU_API_KEY
+    only:
+      - dev
+
+deploy_frontend_dev:
+    type: deploy
+    stage: dev
+    image: ruby:latest
+    before_script:
+      - apt-get update -qy
+      - apt-get install -y ruby-dev
+      - gem install dpl
+    script:
+      - cd front-end
+      - dpl --provider=heroku --app=$HEROKU_APP_DEV_FRONTEND --api-key=$HEROKU_API_KEY
+    when: delayed
+    start_in: 5 minutes
+    only:
+      - dev
+
+deploy_backend_prod:
+    type: deploy
+    stage: production
+    image: ruby:latest
+    before_script:
+      - apt-get update -qy
+      - apt-get install -y ruby-dev
+      - gem install dpl
+    script:
+      #- curl 
+      #  --request PATCH "https://api.heroku.com/apps/$STAGING_SERVER_HEROKU_APP_NAME/config-vars"  
+      #  --data "{\"SPRING_PROFILES_ACTIVE\":\"prod\"}" 
+      #  --header "Content-Type:application/json" 
+      #  --header "Accept:application/vnd.heroku+json; version=3"
+      - cd back-end
+      - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION_BACKEND --api-key=$HEROKU_API_KEY
+    only:
+      - main
+
+deploy_frontend_prod:
+    type: deploy
+    stage: production
+    image: ruby:latest
+    before_script:
+      - apt-get update -qy
+      - apt-get install -y ruby-dev
+      - gem install dpl
+    script:
+      - cd front-end
+      - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION_FRONTEND --api-key=$HEROKU_API_KEY
+    when: delayed
+    start_in: 5 minutes
+    only:
+      - main

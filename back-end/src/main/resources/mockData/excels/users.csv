@@ -1,0 +1,3 @@
+user_id,email,date_of_birth,first_name,last_name,phone_number,is_verified,is_locked,failed_attempts,password,insert_timestamp
+1,nikita.kothari@dal.ca,2022-02-24,test,test,1234567890,1,1,3,$2a$12$/2WHU564eTHL7S4HS9y04uf1VMV64diKT5fq0lfROl6kQL7RS3lqG,"2022-02-24 18:04:21"
+10,nk912794@dal.ca,2022-03-09,Nikita,Kothari,"+1 902-989-7520",1,0,0,$2a$12$Ty3ELjusrK998DighT18e.hu/2MzlUXfJTDLZRKH6R976S6O5mj3a,"2022-03-09 20:32:29"

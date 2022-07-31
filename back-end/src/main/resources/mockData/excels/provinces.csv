@@ -1,0 +1,6 @@
+province_id,province_name,province_code,country_id,insert_timestamp
+1,"Nova Scotia",NS,1,"2022-02-24 17:15:55"
+2,Ontario,ON,1,"2022-02-24 17:15:55"
+3,"British Columbia",BS,1,"2022-02-24 17:15:55"
+4,Alberta,AB,1,"2022-02-24 17:15:55"
+5,Manitoba,MB,1,"2022-02-24 17:15:55"

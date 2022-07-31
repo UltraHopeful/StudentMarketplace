@@ -1,0 +1,108 @@
+<div class="fixed-top menu-sidebar p-3">
+
+    <!-- Search Bar -->
+    <div class="">
+        <input #keyword type="text" class="form-control" style="border-radius: 5px;" placeholder="Search posts..."
+            (keyup.enter)="doSearch()" />
+    </div>
+
+    <!-- Categories -->
+    <div class="tab-content mt-4" id="nav-tabContent">
+        <p class="fw-bold">Categories</p>
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action" routerLink="/category/{{ postCategory.id }}"
+                routerLinkActive="active-link" *ngFor="let postCategory of postCategories" role="tab"
+                (click)="changeCategory(postCategory.id, postCategory.categoryName)" style="border: 0;">{{
+                postCategory.categoryName }}</a>
+        </div>
+    </div>
+
+    <!-- Sort Option -->
+    <div class="tab-content mt-4" id="nav-tabContent">
+        <p class="fw-bold">Sort By:</p>
+        <div class="mt-1">
+            <select class="form-control selectpicker" (change)="onFilterChanged()" [(ngModel)]="sortBy" style="border-radius: 5px;">
+                <option value="0" selected>Post: Newest</option>
+                <option value="1">Price: Low to High</option>
+                <option value="2">Price: High to Low</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Price -->
+    <div class="tab-content mt-4" id="nav-tabContent">
+        <p class="fw-bold">Price</p>
+        <div class="row">
+            <div class="col-6">
+                <input #priceMin type="number" step="0" class="form-control mt-1" style="border-radius: 5px;"
+                    placeholder="Min" (keyup.enter)="onFilterChanged()" />
+            </div>
+            <div class="col-6">
+                <input #priceMax type="number" step="0" class="form-control mt-1" style="border-radius: 5px;"
+                    placeholder="Max" (keyup.enter)="onFilterChanged()" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters for Condition -->
+    <div class="col-md-12 mt-2" *ngIf="(categoryMode != 'Housing')">
+        <p class="fw-bold">Condition</p>
+        <!-- Excellent -->
+        <div>
+            <input #excellent class="form-check-input mt-2" type="checkbox" id="excellent" (change)="onFilterChanged()">
+            <label class="form-check-label ml-2" for="excellent">&nbsp;Excellent</label>
+        </div>
+        <!-- Light Usage -->
+        <div>
+            <input #lightUsage class="form-check-input mt-2" type="checkbox" id="lightUsage"
+                (change)="onFilterChanged()">
+            <label class="form-check-label ml-2" for="lightUsage">&nbsp;Light Usage</label>
+        </div>
+        <!-- Visible Usage -->
+        <div>
+            <input #visibleUsage class="form-check-input mt-2" type="checkbox" id="visibleUsage"
+                (change)="onFilterChanged()">
+            <label class="form-check-label ml-2" for="visibleUsage">&nbsp;Visible Usage</label>
+        </div>
+        <!-- Heavy Usage -->
+        <div>
+            <input #heavyUsage class="form-check-input mt-2" type="checkbox" id="heavyUsage"
+                (change)="onFilterChanged()">
+            <label class="form-check-label ml-2" for="heavyUsage">&nbsp;Heavy Usage</label>
+        </div>
+    </div>
+
+    <!-- Filters for books -->
+    <div class="col-md-12 mt-2" *ngIf="(categoryMode == 'Books')">
+        <p class="fw-bold">Advanced Filters</p>
+        <!-- Course Book -->
+        <div>
+            <input #courseBook class="form-check-input mt-2" type="checkbox" id="courseBook"
+                (change)="changeCategory(categoryId, categoryMode)">
+            <label class="form-check-label ml-2" for="courseBook">&nbsp;Course books</label>
+        </div>
+    </div>
+
+    <!-- Filters for Housing -->
+    <div class="col-md-12 mt-2" *ngIf="(categoryMode == 'Housing')">
+        <p class="fw-bold">Advanced Filters</p>
+        <!-- Amenities Included -->
+        <div>
+            <input #amenities class="form-check-input mt-2" type="checkbox" id="amenities"
+                (change)="changeCategory(categoryId, categoryMode)">
+            <label class="form-check-label ml-2" for="amenities">&nbsp;Amenities Included</label>
+        </div>
+        <!-- Furnished Included -->
+        <div>
+            <input #furnished class="form-check-input mt-2" type="checkbox" id="furnished"
+                (change)="changeCategory(categoryId, categoryMode)">
+            <label class="form-check-label ml-2" for="furnished">&nbsp;Furnished Included</label>
+        </div>
+        <!-- Parking Included -->
+        <div>
+            <input #parking class="form-check-input mt-2" type="checkbox" id="parking"
+                (change)="changeCategory(categoryId, categoryMode)">
+            <label class="form-check-label ml-2" for="parking">&nbsp;Parking Included</label>
+        </div>
+    </div>
+</div>

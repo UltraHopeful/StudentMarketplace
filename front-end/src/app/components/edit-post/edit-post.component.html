@@ -1,0 +1,117 @@
+<div class="container-fluid mt-5">
+
+    <div class="row mx-auto justify-content-center">
+        <div class="col-lg-8 col-md-9 col-11">
+            <div class="d-block mx-auto bg-light p-4 rounded-3 shadow">
+
+                <form [formGroup]="editPostFormGroup" (ngSubmit)="onSubmit()">
+
+                    <!-- add post details group -->
+                    <div formGroupName="editPost">
+                        <h3 class="mb-4 text-center fw-bold">Edit Post</h3>
+
+                        <!-- Title -->
+                        <div class="row mb-3">
+                            <label class="col-md-3" for="inputTitle">Title</label>
+                            <div class="col-md-9">
+                                <input class="form-control" formControlName="title" type="text" id="inputTitle"
+                                       [(ngModel)]="post.title">
+                                <div *ngIf="title.invalid && (title.dirty || title.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="title.errors['required'] || title.errors['notOnlyWhitespace']">
+                                        Post Title is required
+                                    </div>
+                                    <div *ngIf="title.errors['minlength']">
+                                        Title must be at least 2 characters long
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="row mb-3">
+                            <label class="col-sm-3">Description</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" formControlName="description" type="text" [(ngModel)]="post.description">
+                                <div *ngIf="description.invalid && (description.dirty || description.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div
+                                            *ngIf="description.errors['required'] || description.errors['notOnlyWhitespace']" required>
+                                        Description is required
+                                    </div>
+                                    <div *ngIf="description.errors['minlength']">
+                                        Description must be at least 2 characters long
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="row mb-3">
+                            <div class="col-sm-3"><label>Price</label></div>
+                            <div class="col-sm-9">
+                                <input class="form-control" formControlName="price" type="number" [(ngModel)]="post.price" required>
+                                <div *ngIf="price.invalid && (price.dirty || price.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="price.errors['required'] || price.errors['notOnlyWhitespace']">
+                                        Price is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="row mb-3">
+                            <label class="col-sm-3">Category</label>
+                            <div class="col-sm-9">
+                                <input type="text" formControlName="category" class="form-control"
+                                       [ngModel]="post.category.categoryName" readonly>
+                                <div *ngIf="category.invalid && (category.dirty || category.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="category.errors['required']">
+                                        Please choose from the options
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Negotiable -->
+                        <div class="row mb-3">
+                            <label class="col-sm-3">Negotiable?</label>
+                            <div class="col-sm-9">
+                                <select class="form-control selectpicker" formControlName="negotiable" [(ngModel)]="post.negotiable" required>
+                                    <option value="" hidden>Please choose...</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div *ngIf="negotiable.invalid && (negotiable.dirty || negotiable.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="negotiable.errors['required']">
+                                        Please choose from the options
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upload Image -->
+                        <!--                        <div class="row mb-3">-->
+                        <!--                            <label class="col-sm-auto">Upload image for the post</label>-->
+                        <!--                            <div class="col-sm-12">-->
+                        <!--                                <input formControlName="media" type="file" class="form-control"-->
+                        <!--                                       (change)="onFileChange($event)">-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+
+                    </div>
+
+                    <!-- submit button-->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Edit Post</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

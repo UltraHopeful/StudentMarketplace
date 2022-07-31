@@ -1,0 +1,1 @@
+web: java -Dspring.datasource.url=jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_9_DEVINT -Dspring.profiles.active=prod -Dserver.port=$PORT -jar target/marketplace-backend-1.0-SNAPSHOT.jar

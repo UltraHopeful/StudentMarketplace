@@ -1,0 +1,42 @@
+<div class="main-content">
+  <div class="">
+    <div class="container-fluid">
+      <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
+
+        <!-- loop over the collection of products -->
+        <div *ngFor="let buyer of post.buyers" class="col mb-4">
+
+          <div class="card h-100 shadow-sm">
+
+            <div class="card-body">
+              <button class="p-0">
+                <h4>{{ buyer.user.firstName }} {{buyer.user.lastName}}</h4>
+              </button>
+
+              <div>{{ buyer.user.email}}</div>
+            </div>
+
+            <div class="card-footer">
+              <button class="btn btn-info btn-sm" *ngIf="!buyer.canCommunicate" (click)="acceptCommunication(buyer.id)">
+                <fa-icon [icon]="['fas', 'address-card']"></fa-icon> Accept Communication Request
+              </button>
+              <div *ngIf="buyer.canCommunicate" class="text text-success">
+                <fa-icon [icon]="['fas', 'check-circle']"></fa-icon> Communication Accepted
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- if buyer empty then display a message-->
+        <div *ngIf="post.buyers?.length == 0" class="alert alert-warning col-md-12" role="alert">
+          No interested buyers found.
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <!-- end footer -->
+
+</div>

@@ -1,0 +1,87 @@
+<div class="main-content">
+    <div class="">
+        <div class="container-fluid">
+            <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1">
+
+                <!-- loop over the collection of products -->
+                <div *ngFor="let post of posts" class="col mb-4">
+
+                    <div class="card h-100 shadow-sm">
+
+                        <div *ngFor="let image of post.media" (click)="onPostSelected(post)">
+                            <img src="{{ image.location }}" class="img-fluid card-img-top">
+                        </div>
+
+
+                        <div class="card-body">
+                            <button class="p-0" (click)="onPostSelected(post)">
+                                <h4>{{ post.title }}</h4>
+                            </button>
+
+                            <div>{{ post.description}}</div>
+                            <div *ngIf="currentUserId != post.seller.id">Seller: {{ post.seller.firstName}}
+                                {{post.seller.lastName}}</div>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col text-success">{{ post.price| currency:'USD' }}</div>
+                                <div class="col-auto" style="text-align: right;">
+                                    <span *ngIf="post.status == 'Sold'" class="text-success">
+                                        <fa-icon [icon]="['fas', 'check-circle']"></fa-icon> Sold
+                                    </span> &nbsp;&nbsp;
+                                    <span *ngIf="currentUserId == post.seller.id" class="text-info">
+                                        <fa-icon [icon]="['fas', 'user-check']"></fa-icon> My Post
+                                    </span>
+                                </div>
+                            </div>
+                           
+                            <button class="btn btn-primary btn-sm"
+                                *ngIf="((currentUserId != post.seller.id) && !(post.markedInterested) && (post.status != 'Sold'))"
+                                (click)="onInterested(post)">Interested</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- if products empty then display a message-->
+                <div *ngIf="posts?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                    No posts found.
+                </div>
+
+            </div>
+
+            <!-- begin footer -->
+            <div class="footer-pagination">
+                <div class="row justify-content-center">
+
+                    <div class="col-md-auto">
+
+                        <ngb-pagination class="float-end" [(page)]="thePageNumber" [pageSize]="thePageSize"
+                            [collectionSize]="theTotalElements" [maxSize]="5" [boundaryLinks]="true"
+                            (pageChange)="listPosts()">
+
+                        </ngb-pagination>
+
+                    </div>
+
+                    <div class="col-md-3 mt-2">
+                        <span class="mr-2">Page Size &nbsp;</span>
+
+                        <select (change)="updatePageSize($event.target.value)">
+                            <option>3</option>
+                            <option selected="true">6</option>
+                            <option>12</option>
+                            <option>24</option>
+                            <option>48</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- end footer -->
+
+</div>

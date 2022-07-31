@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <div class="row">
+        <app-navbar *ngIf="!hideNavBar()"></app-navbar>
+    </div>
+
+    <div class="row main-row" [class.vh-100]="!displayFilterSidebar()">
+
+        <div class="col-md-3 d-none d-md-block bg-light pt-3" [class.d-md-none]="displayFilterSidebar()">
+            <!-- MENU SIDEBAR-->
+            <app-post-category-menu *ngIf="!displayFilterSidebar()"></app-post-category-menu>
+        </div>
+        <!-- END MENU SIDEBAR-->
+
+        <div class="pb-5 mw-100" [class.col-md-9]="!displayFilterSidebar()" [class.col-md-12]="displayFilterSidebar()">
+
+            <!-- MAIN CONTENT-->
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,154 @@
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-md-11 col-sm-12 col-12">
+            <div class="d-block mx-auto bg-light p-5 rounded-3 shadow">
+                <form [formGroup]="userRegistrationFormGroup" (ngSubmit)="onSubmit()">
+
+                    <!-- user registration form group -->
+                    <div formGroupName="userRegistration">
+                        <div class="d-block">
+                            <img src="assets/images/logo.png" alt="Student MarketPlace"
+                                 class="img-fluid d-block mb-5 mx-auto"
+                                 width="200px">
+                        </div>
+                        <h2 class="mb-4 text-center fw-bold">Registration</h2>
+
+                        <!-- First Name -->
+                        <div class="row mb-3">
+                            <label for="inputFirstName" class="col-sm-3 col-form-label">First Name</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" formControlName="firstName" type="text" required
+                                       minlength="2"
+                                       maxlength="50" id="inputFirstName">
+                                <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="firstName.errors['required'] || firstName.errors['notOnlyWhitespace']">
+                                        First Name is required
+                                    </div>
+                                    <div *ngIf="firstName.errors['minlength']">
+                                        First Name must be at least 2 characters long
+                                    </div>
+                                    <div *ngIf="firstName.errors['maxLength']">
+                                        First Name cannot be more than 50 characters long
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Last Name -->
+                        <div class="row mb-3">
+                            <label for="inputLastName" class="col-sm-3 col-form-label">Last Name</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" formControlName="lastName" type="text" id="inputLastName">
+                                <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="lastName.errors['required'] || lastName.errors['notOnlyWhitespace']">
+                                        Last Name is required
+                                    </div>
+                                    <div *ngIf="lastName.errors['minlength']">
+                                        Last Name must be at least 2 characters long
+                                    </div>
+                                    <div *ngIf="firstName.errors['maxlength']">
+                                        Last Name cannot be more than 50 characters long
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Email -->
+                        <div class="row mb-3">
+                            <label for="inputEmail" class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                                <input type="email" formControlName="email" class="form-control" id="inputEmail">
+                                <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="email.errors['required']">
+                                        Email is required
+                                    </div>
+                                    <div *ngIf="email.errors['email']">
+                                        Not a valid email address
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="row mb-3">
+                            <label for="inputPhoneNumber" class="col-sm-3 col-form-label">Phone Number</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" formControlName="phoneNumber" type="phone"
+                                       placeholder="+x xxx-xxx-xxxx" id="inputPhoneNumber">
+                                <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="phoneNumber.errors['required']">
+                                        Phone Number is required
+                                    </div>
+                                    <div *ngIf="phoneNumber.errors['pattern']">
+                                        Phone Number must be in the requested format +x xxx-xxx-xxxx
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="row mb-3">
+                            <label for="inputDOB" class="col-sm-3 col-form-label">Date of Birth</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" formControlName="dateOfBirth" type="date"
+                                       max="{{this.currentDate | date: 'yyyy-MM-dd'}}" id="inputDOB">
+                                <div *ngIf="dateOfBirth.invalid && (dateOfBirth.dirty || dateOfBirth.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="dateOfBirth.errors['required']">
+                                        Date of Birth is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="row mb-3">
+                            <label for="password" class="col-sm-3 col-form-label">Password</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" formControlName="password" type="password" id="password">
+                                <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="password.errors['required']">
+                                        Password is required
+                                    </div>
+                                    <div *ngIf="password.errors['minlength']">
+                                        Password must be at least 8 characters long
+                                    </div>
+                                    <div *ngIf="password.errors['maxlength']">
+                                        Password cannot be more than 25 characters long
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Confirm Password -->
+                        <div class="row mb-3">
+                            <label for="confirmPassword" class="col-sm-3 col-form-label">Confirm Password</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" formControlName="confirmPassword" type="password" id="confirmPassword">
+                                <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="confirmPassword.errors['required']">
+                                        Password is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- submit button-->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success mb-5">Register</button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+                Already have an account? <a routerLink="/login" class="btn btn-info " target="_self" href="/login">Login</a>
+            </div>
+        </div>
+    </div>
+
+</div>

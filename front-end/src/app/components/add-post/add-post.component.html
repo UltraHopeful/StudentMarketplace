@@ -1,0 +1,635 @@
+<div class="container-fluid mt-5">
+
+    <div class="row mx-auto justify-content-center">
+        <div class="col-lg-8 col-md-8 col-11">
+            <div class="d-block mx-auto bg-light p-4 rounded-3 shadow">
+
+                <form [formGroup]="addPostFormGroup" (ngSubmit)="onSubmit()">
+
+                    <!-- add post details group -->
+                    <div formGroupName="addPost">
+                        <h3 class="mb-4 text-center fw-bold">Create New Post</h3>
+
+                        <!-- Title -->
+                        <div class="row mb-3">
+                            <label class="col-md-3" for="inputTitle">Title</label>
+                            <div class="col-md-9">
+                                <input class="form-control" formControlName="title" type="text" id="inputTitle">
+                                <div *ngIf="title.invalid && (title.dirty || title.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="title.errors['required'] || title.errors['notOnlyWhitespace']">
+                                        Post Title is required
+                                    </div>
+                                    <div *ngIf="title.errors['minlength']">
+                                        Title must be at least 2 characters long
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="row mb-3">
+                            <label class="col-sm-3">Description</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" formControlName="description" type="text">
+                                <div *ngIf="description.invalid && (description.dirty || description.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div
+                                            *ngIf="description.errors['required'] || description.errors['notOnlyWhitespace']">
+                                        Description is required
+                                    </div>
+                                    <div *ngIf="description.errors['minlength']">
+                                        Description must be at least 2 characters long
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="row mb-3">
+                            <div class="col-sm-3"><label>Price</label></div>
+                            <div class="col-sm-9">
+                                <input class="form-control" formControlName="price" type="number">
+                                <div *ngIf="price.invalid && (price.dirty || price.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="price.errors['required'] || price.errors['notOnlyWhitespace']">
+                                        Price is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="row mb-3">
+                            <label class="col-sm-3">Category</label>
+                            <div class="col-sm-9">
+                                <select formControlName="category" class="form-control form-select selectpicker"
+                                        (change)="onCategorySelected()">
+                                    <option value="" selected hidden>Select a category...</option>
+                                    <option *ngFor="let category of categories" [ngValue]="category">
+                                        {{ category.categoryName }}
+                                    </option>
+                                </select>
+                                <div *ngIf="category.invalid && (category.dirty || category.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="category.errors['required']">
+                                        Please choose from the options
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Negotiable -->
+                        <div class="row mb-3">
+                            <label class="col-sm-3">Negotiable?</label>
+                            <div class="col-sm-9">
+                                <select class="form-control form-select selectpicker" formControlName="negotiable">
+                                    <option value="" selected hidden>Please choose...</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div *ngIf="negotiable.invalid && (negotiable.dirty || negotiable.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="negotiable.errors['required']">
+                                        Please choose from the options
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upload Image -->
+                        <div class="row mb-3">
+                            <label class="col-sm-auto">Upload image for the post</label>
+                                <div class="col-sm-12">
+                                    <input formControlName="media" type="file" class="form-control" accept="image/jpeg,image/png"
+                                           (change)="onFileChange($event)">
+                                </div>
+                                <div *ngIf="media.invalid && (media.dirty || media.touched)"
+                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="media.errors['required']">
+                                        Image is required
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- add furniture details group -->
+                        <div formGroupName="addFurniture" *ngIf="(categoryMode == 'Furniture')">
+                            <hr/>
+                            <h3 class="mb-4 text-center fw-bold">Furniture Details</h3>
+
+                            <!-- Furniture Type -->
+                            <div class="row mb-3">
+                              <div class="col-sm-3"><label>Type</label></div>
+                                <div class="col-md-9">
+                                        <input class="form-control" formControlName="furnitureType" type="text" required>
+                                        <div *ngIf="furnitureType.invalid && (furnitureType.dirty || furnitureType.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="furnitureType.errors['required'] || furnitureType.errors['notOnlyWhitespace']">
+                                                Type is required
+                                            </div>
+                                            <div *ngIf="furnitureType.errors['minlength']">
+                                                Type must be at least 2 characters long
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <!-- Furniture Weight -->
+                            <div class="row mb-3">
+
+                              <div class="col-sm-3"><label>Weight (in kg)</label></div>
+                                <div class="col-md-9">
+                                        <input class="form-control" formControlName="furnitureWeight" type="number" step="0.01" required>
+                                        <div *ngIf="furnitureWeight.invalid && (furnitureWeight.dirty || furnitureWeight.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="furnitureWeight.errors['required'] || furnitureWeight.errors['notOnlyWhitespace']">
+                                                Weight is required
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <!-- Furniture Length -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Length (in cm)</label></div>
+                                <div class="col-md-9">
+                                        <input class="form-control" formControlName="furnitureLength" type="number" step="0.01" required>
+                                        <div *ngIf="furnitureLength.invalid && (furnitureLength.dirty || furnitureLength.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="furnitureLength.errors['required'] || furnitureLength.errors['notOnlyWhitespace']">
+                                                Length is required
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+
+                            <!-- Furniture Width -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Width (in cm)</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="furnitureWidth" type="number" step="0.01" required>
+                                        <div *ngIf="furnitureWidth.invalid && (furnitureWidth.dirty || furnitureWidth.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="furnitureWidth.errors['required'] || furnitureWidth.errors['notOnlyWhitespace']">
+                                                Width is required
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Furniture Height -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Height (in cm)</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="furnitureHeight" type="number" step="0.01" required>
+                                        <div *ngIf="furnitureHeight.invalid && (furnitureHeight.dirty || furnitureHeight.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="furnitureHeight.errors['required'] || furnitureHeight.errors['notOnlyWhitespace']">
+                                                Height is required
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Furniture Color -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Color</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="furnitureColor" type="text" required>
+                                        <div *ngIf="furnitureColor.invalid && (furnitureColor.dirty || furnitureColor.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="furnitureColor.errors['required'] || furnitureColor.errors['notOnlyWhitespace']">
+                                                Color is required
+                                            </div>
+                                            <div *ngIf="furnitureColor.errors['minlength']">
+                                                Color must be at least 2 characters long
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Furniture Age -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>How old (in months)?</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="furnitureAge" type="number" step="0.01" required>
+                                        <div *ngIf="furnitureAge.invalid && (furnitureAge.dirty || furnitureAge.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="furnitureAge.errors['required'] || furnitureAge.errors['notOnlyWhitespace']">
+                                                Furniture Age is required
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Furniture Condition -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Condition</label></div>
+                                <div class="col-md-9">
+
+                                        <select class="form-control form-select selectpicker" formControlName="furnitureCondition">
+                                            <option value="" selected hidden>Please choose...</option>
+                                            <option value="Excellent">Excellent</option>
+                                            <option value="Light Usage">Light Usage</option>
+                                            <option value="Visible Usage">Visible Usage</option>
+                                            <option value="Heavy Usage">Heavy Usage</option>
+                                        </select>
+                                        <div *ngIf="furnitureCondition.invalid && (furnitureCondition.dirty || furnitureCondition.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div *ngIf="furnitureCondition.errors['required']">
+                                                Please choose from the options
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- add electronics details group -->
+                        <div formGroupName="addElectronics" *ngIf="(categoryMode == 'Electronics')">
+                            <hr/>
+                            <h3 class="mb-4 text-center fw-bold">Electronics Details</h3>
+
+                            <!-- Electronics Type -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Type</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="electronicsType" type="text">
+                                        <div *ngIf="electronicsType.invalid && (electronicsType.dirty || electronicsType.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="electronicsType.errors['required'] || electronicsType.errors['notOnlyWhitespace']">
+                                                Type is required
+                                            </div>
+                                            <div *ngIf="electronicsType.errors['minlength']">
+                                                Type must be at least 2 characters long
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Electronics Brand -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Brand</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="electronicsBrand" type="text">
+                                        <div *ngIf="electronicsBrand.invalid && (electronicsBrand.dirty || electronicsBrand.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="electronicsBrand.errors['required'] || electronicsBrand.errors['notOnlyWhitespace']">
+                                                Brand is required
+                                            </div>
+                                            <div *ngIf="electronicsBrand.errors['minlength']">
+                                                Brand must be at least 2 characters long
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Electronics Color -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Color</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="electronicsColor" type="text" required>
+                                        <div *ngIf="electronicsColor.invalid && (electronicsColor.dirty || electronicsColor.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="electronicsColor.errors['required'] || electronicsColor.errors['notOnlyWhitespace']">
+                                                Color is required
+                                            </div>
+                                            <div *ngIf="electronicsColor.errors['minlength']">
+                                                Color must be at least 2 characters long
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Electronics Condition -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Condition</label></div>
+                                <div class="col-md-9">
+
+                                        <select class="form-control form-select selectpicker"
+                                                formControlName="electronicsCondition">
+                                            <option value="" selected hidden>Please choose...</option>
+                                            <option value="Excellent">Excellent</option>
+                                            <option value="Light Usage">Light Usage</option>
+                                            <option value="Visible Usage">Visible Usage</option>
+                                            <option value="Heavy Usage">Heavy Usage</option>
+                                        </select>
+                                        <div *ngIf="electronicsCondition.invalid && (electronicsCondition.dirty || electronicsCondition.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div *ngIf="electronicsCondition.errors['required']">
+                                                Please choose from the options
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Electronics Age -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>How old (in months)?</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="electronicsAge" type="number" step="0.01" required>
+                                        <div *ngIf="electronicsAge.invalid && (electronicsAge.dirty || electronicsAge.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="electronicsAge.errors['required'] || electronicsAge.errors['notOnlyWhitespace']">
+                                                Electronics Age is required
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- add book details group -->
+                        <div formGroupName="addBooks" *ngIf="(categoryMode == 'Books')">
+                            <hr/>
+                            <h3 class="mb-4 text-center fw-bold">Book Details</h3>
+
+                            <!-- coursebook -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Is this a course book?</label></div>
+                                <div class="col-md-9">
+
+                                        <select class="form-control form-select selectpicker" formControlName="booksCourseBook"
+                                                (change)="onBooksCourseBookSelected()">
+                                            <option value="" selected hidden>Please choose...</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                        <div *ngIf="booksCourseBook.invalid && (booksCourseBook.dirty || booksCourseBook.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div *ngIf="booksCourseBook.errors['required']">
+                                                Please choose from the options
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Course Name -->
+                            <div class="row mb-3" *ngIf="(bookCoursebookMode)">
+                                <div class="col-sm-3"><label>Course Name</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="booksCourseName" type="text">
+                                        <div *ngIf="booksCourseName.invalid && (booksCourseName.dirty || booksCourseName.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="booksCourseName.errors['required'] || booksCourseName.errors['notOnlyWhitespace']">
+                                                Course Name is required
+                                            </div>
+                                            <div *ngIf="booksCourseName.errors['minlength']">
+                                                Course Name must be at least 2 characters long
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Course Level -->
+                            <div class="row mb-3" *ngIf="(bookCoursebookMode)">
+                                <div class="col-sm-3"><label>Course Level</label></div>
+                                <div class="col-md-9">
+
+                                        <select class="form-control form-select selectpicker" formControlName="booksCourseLevel"
+                                                required>
+                                            <option value="" selected hidden>Please choose...</option>
+                                            <option value="High School">High School</option>
+                                            <option value="Undergraduate">Undergraduate</option>
+                                            <option value="Graduate">Graduate</option>
+                                            <option value="PhD">PhD</option>
+                                        </select>
+                                        <div *ngIf="booksCourseLevel.invalid && (booksCourseLevel.dirty || booksCourseLevel.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div *ngIf="booksCourseLevel.errors['required']">
+                                                Please choose from the options
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            <!-- Course Condition -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Condition</label></div>
+                                <div class="col-md-9">
+
+                                        <select class="form-control form-select selectpicker"
+                                                formControlName="booksCourseCondition">
+                                            <option value="" selected hidden>Please choose...</option>
+                                            <option value="Excellent">Excellent</option>
+                                            <option value="Light Usage">Light Usage</option>
+                                            <option value="Visible Usage">Visible Usage</option>
+                                            <option value="Heavy Usage">Heavy Usage</option>
+                                        </select>
+                                        <div *ngIf="booksCourseCondition.invalid && (booksCourseCondition.dirty || booksCourseCondition.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div *ngIf="booksCourseCondition.errors['required']">
+                                                Please choose from the options
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- add housing details group -->
+                        <div formGroupName="addHousing" *ngIf="(categoryMode == 'Housing')">
+                            <hr/>
+                            <h3 class="mb-4 text-center fw-bold">Housing Details</h3>
+
+                            <!-- Housing Location -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Location</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="housingLocation" type="text">
+                                        <div *ngIf="housingLocation.invalid && (housingLocation.dirty || housingLocation.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="housingLocation.errors['required'] || housingLocation.errors['notOnlyWhitespace']">
+                                                Location is required
+                                            </div>
+                                            <div *ngIf="housingLocation.errors['minlength']">
+                                                Location must be at least 2 characters long
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Housing Floor -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Floor</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="housingFloor" type="number">
+                                        <div *ngIf="housingFloor.invalid && (housingFloor.dirty || housingFloor.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="housingFloor.errors['required'] || housingFloor.errors['notOnlyWhitespace']">
+                                                Floor is required
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Housing Type -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Type</label></div>
+                                <div class="col-md-9">
+
+                                        <select class="form-control form-select selectpicker" formControlName="housingType"
+                                                (change)="onHousingTypeSelected()">
+                                            <option value="" selected hidden>Please choose...</option>
+                                            <option value="Studio">Studio</option>
+                                            <option value="Bedroom">Bedroom</option>
+                                        </select>
+                                        <div *ngIf="housingType.invalid && (housingType.dirty || housingType.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div *ngIf="housingType.errors['required']">
+                                                Please choose from the options
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Housing Rooms -->
+                            <div class="row mb-3" *ngIf="(housingTypeMode)">
+                                <div class="col-sm-3"><label>Number of Rooms</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="housingRooms" type="number" step="0.01" required>
+                                        <div *ngIf="housingRooms.invalid && (housingRooms.dirty || housingRooms.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div
+                                                    *ngIf="housingRooms.errors['required'] || housingRooms.errors['notOnlyWhitespace']">
+                                                Number of Rooms is required
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Housing Furnished -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Furnished?</label></div>
+                                <div class="col-md-9">
+
+                                        <select class="form-control form-select selectpicker" formControlName="housingFurnished">
+                                            <option value="" selected hidden>Please choose...</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                        <div *ngIf="housingFurnished.invalid && (housingFurnished.dirty || housingFurnished.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div *ngIf="housingFurnished.errors['required']">
+                                                Please choose from the options
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Housing Availability -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Available from</label></div>
+                                <div class="col-md-9">
+
+                                        <input class="form-control" formControlName="housingAvailability" type="date">
+                                        <div *ngIf="housingAvailability.invalid && (housingAvailability.dirty || housingAvailability.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div *ngIf="housingAvailability.errors['required']">
+                                                Availability is required
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Housing Parking -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Parking Included?</label></div>
+                                <div class="col-md-9">
+
+                                        <select class="form-control form-select selectpicker" formControlName="housingParking">
+                                            <option value="" selected hidden>Please choose...</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                        <div *ngIf="housingParking.invalid && (housingParking.dirty || housingParking.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div *ngIf="housingParking.errors['required']">
+                                                Please choose from the options
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Housing Amenities -->
+                            <div class="row mb-3">
+                                <div class="col-sm-3"><label>Amenities Included?</label></div>
+                                <div class="col-md-9">
+
+                                        <select class="form-control form-select selectpicker" formControlName="housingAmenities">
+                                            <option value="" selected hidden>Please choose...</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                        <div *ngIf="housingAmenities.invalid && (housingAmenities.dirty || housingAmenities.touched)"
+                                             class="alert alert-danger mt-1">
+                                            <div *ngIf="housingAmenities.errors['required']">
+                                                Please choose from the options
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- submit button-->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Create Post</button>
+                        </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="container-fluid mt-5">
+
+  <div class="row mx-auto justify-content-center">
+    <div class="col-lg-6 col-md-11 col-sm-11 col-11">
+      <div class="d-block mx-auto bg-light p-5 rounded-3 shadow">
+
+      <form [formGroup]="resetResponseFormGroup" (ngSubmit)="Submit()"  >
+
+        <!-- reset password form group -->
+        <div formGroupName="resetPassword">
+          <div class="d-block">
+            <img src="assets/images/logo.png" alt="Student MarketPlace"
+                 class="img-fluid d-block mb-5 mx-auto"
+                 width="200px">
+          </div>
+          <h2 class="mb-4 text-center fw-bold">Reset Password</h2>
+
+          <!-- Email Address -->
+          <div class="row mb-3">
+            <label for="inputEmail" class="col-sm-4 col-form-label">Email</label>
+            <div class="col-sm-8">
+              <input class="form-control" formControlName="email" type="text" [(ngModel)]="userEmail" id="inputEmail">
+              <div *ngIf="email?.invalid && (email.dirty || email.touched)" class="alert alert-danger mt-1">
+                <div *ngIf="email.errors['required']">
+                  Email is required
+                </div>
+                <div *ngIf="email.errors['email']">
+                  Not a valid email address
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="row mb-3">
+            <label for="inputPassword" class="col-sm-4 col-form-label">Password</label>
+            <div class="col-sm-8">
+                <input class="form-control" formControlName="password" type="password" id="inputPassword">
+                <div *ngIf="password?.invalid && (password.dirty || password.touched)"
+                     class="alert alert-danger mt-1">
+                  <div *ngIf="password.errors['required']">
+                    Password is required
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="row mb-3">
+            <label for="inputConfirmPassword" class="col-sm-4 col-form-label">Confirm Password</label>
+            <div class="col-sm-8">
+                <input class="form-control" formControlName="confirm_password" type="password" id="inputConfirmPassword">
+                <div *ngIf="confirm_password?.invalid && (confirm_password.dirty || confirm_password.touched)"
+                     class="alert alert-danger mt-1">
+                  <div *ngIf="confirm_password.errors['required']">
+                    Password is required
+                  </div>
+                </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- submit button-->
+        <div class="text-center">
+          <button [disabled]="isTokenVerified==false" type="submit" class="btn btn-success mb-4" >Reset Password</button>
+        </div>
+
+      </form>
+
+      <a *ngIf="isTokenVerified==true" routerLink="/login" class="btn btn-info " target="_self" href="/login">Back to Login</a>
+      <a *ngIf="isTokenVerified==false" routerLink="/forgot-password" class="btn btn-info" target="_self" href="/forgot-password">Back to Forgot Password</a>
+    </div>
+</div>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="container-fluid mt-5">
+    <div class="row mx-auto justify-content-center">
+        <div class="col-lg-8 col-md-11 col-11">
+            <div class="d-block mx-auto bg-light p-4 rounded-3 shadow">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex flex-column align-items-center text-center">
+                                    <img class="img-fluid mb-5" src="/assets/images/logo.png" style="width:150px;">
+                                    <h4 class="mb-3">{{user.firstName + " " + user.lastName}}</h4>
+                                    <a routerLink="/user-profile/interest-list" class="btn btn-primary mt-4 mb-sm-4"
+                                       target="_self">Interested Post List</a>&nbsp;
+                                    <a routerLink="/user-post" class="btn btn-primary" target="_self">View
+                                        Listings</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <form>
+                                    <div class="row mb-3">
+                                        <label for="firstName" class="col-md-4 col-form-label">First Name</label>
+                                        <div class="col-md-8">
+                                            <input type="email" class="form-control" id="firstName"
+                                                   value="{{this.user.firstName}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="lastName" class="col-md-4 col-form-label">Last Name</label>
+                                        <div class="col-md-8">
+                                            <input type="email" class="form-control" id="lastName"
+                                                   value="{{this.user.lastName}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="email" class="col-md-4 col-form-label">Email Id</label>
+                                        <div class="col-md-8">
+                                            <input type="email" class="form-control" id="email"
+                                                   value="{{this.user.email}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="ph" class="col-md-4 col-form-label">Phone Number</label>
+                                        <div class="col-md-8">
+                                            <input type="email" class="form-control" id="ph"
+                                                   value="{{this.user.phoneNumber}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="dob" class="col-md-4 col-form-label">Date of Birth</label>
+                                        <div class="col-md-8">
+                                            <input type="email" class="form-control" id="dob"
+                                                   value="{{this.user.dateOfBirth}}" readonly>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div class="d-flex flex-md-row flex-sm-column">
+
+                                    <a routerLink="/edit-profile" class="btn btn-info me-md-5 mb-md-0 mb-sm-3"
+                                       target="_self"
+                                       href="/edit-profile">
+                                        <fa-icon [icon]="['fas','pencil']" class="me-2"></fa-icon>
+                                        Edit Profile</a>
+
+                                    <a class="btn btn-danger" target="_self" (click)="open(content)">
+                                        <fa-icon [icon]="['fas','trash']" class="me-2"></fa-icon>
+                                        Delete
+                                        Profile</a>
+
+                                </div>
+
+
+                                <ng-template #content let-modal>
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="modal-title">User Profile Delete</h4>
+                                        <button type="button" class="btn-close" aria-label="Close button"
+                                                aria-describedby="modal-title"
+                                                (click)="modal.dismiss('Cross click')"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong> <span class="text-primary">"{{user.firstName}}"</span> are you
+                                            sure you want to delete profile?</strong></p>
+                                        <p><span class="text-danger">This operation can not be reversed.</span></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                                (click)="modal.dismiss('cancel click')">Cancel
+                                        </button>
+                                        <button type="button" ngbAutofocus class="btn btn-danger"
+                                                (click)="onDelete()">Ok
+                                        </button>
+                                    </div>
+                                </ng-template>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

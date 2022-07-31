@@ -1,0 +1,16 @@
+<div class="container">
+    <div [hidden]="isUserVerified == false" class="row justify-content-center">
+        <div class="col-lg-5 col-md-8 col-sm-12 text-center">
+            <img src="/assets/images/verifyUser.svg" alt="verifyUserConfirmed">
+            <p>Verified Successfully</p>
+            <a routerLink="/login" href="#" class="btn btn-primary w-50">Login</a>
+        </div>
+    </div>
+    <div [hidden]="isUserVerified == true" class="row justify-content-center">
+        <div class="col-lg-5 col-md-8 col-sm-12 text-center">
+            <img src="/assets/images/brokenLink.svg" alt="brokenLink">
+            <p>Sorry broken or invalid link</p>
+            <a routerLink="/login" href="#" class="btn btn-primary w-50">Login</a>
+        </div>
+    </div>
+</div>

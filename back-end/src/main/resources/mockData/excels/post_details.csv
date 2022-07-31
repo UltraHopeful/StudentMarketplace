@@ -1,0 +1,21 @@
+post_detail_id,post_id,field_name,field_value,insert_timestamp
+777,1,Condition,Excellent,2/24/2022 19:22
+778,2,Condition,Excellent,2/24/2022 20:18
+779,3,Furnished,Yes,3/9/2022 19:19
+780,4,Condition,Brand new,3/22/2022 19:19
+781,5,Coursebook,Yes,3/9/2022 19:19
+782,6,Furnished,No,4/17/2022 19:19
+783,7,Usage,Used Like-New,4/30/2022 19:19
+784,8,Color,Wine red,5/13/2022 19:19
+785,9,Age,2 years,5/26/2022 19:19
+786,10,Size,L,6/8/2022 19:19
+787,11,Condition,Excellent,6/21/2022 19:19
+788,12,BHK,3,7/4/2022 19:19
+789,13,Usage,Heavily used,7/17/2022 19:19
+790,14,color,white,7/30/2022 19:19
+791,15,Coursebook,yes,8/12/2022 19:19
+792,16,Age,3 months,8/25/2022 19:19
+793,17,Size,XL,9/7/2022 19:19
+794,18,Condition,new,9/20/2022 19:19
+795,19,Furnished,yes,10/3/2022 19:19
+796,20,color,Navy blue,10/16/2022 19:19
